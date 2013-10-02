@@ -79,7 +79,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { "term", "emacs", "web", "mail", 5, 6, 7, 8, 9 }}
+    names = { "term", "emacs", "web", "mail", "office", 6, 7, 8, 9 }}
 for s = 1, scount do
     -- Each screen has its own tag table.
     tags[s] = awful.tag(tags.names, s, layouts[1])
@@ -394,7 +394,9 @@ awful.rules.rules = {
     { rule = { class = "Emacs", instance = "emacs"},
       properties = { tag = tags[1][2] } },
     { rule = { class = "Iceweasel", instance = "Navigator"},
-      properties = { tag = tags[1][3]} },
+      properties = { tag = tags[1][3] } },
+    { rule = { class = "LibreOffice" },
+      properties = { tag = tags[1][5] } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
@@ -438,4 +440,3 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 os.execute("synclient TapButton1=1")
-os.execute("xscreensaver -no-splash")
