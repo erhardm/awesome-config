@@ -393,6 +393,8 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { class = "Emacs", instance = "emacs"},
       properties = { tag = tags[1][2] } },
+    { rule = { class = "Gtkwave" },
+      properties = { tag = tags[1][9] } },
     { rule = { class = "Iceweasel", instance = "Navigator"},
       properties = { tag = tags[1][3] } },
     { rule = { class = "LibreOffice" },
