@@ -331,7 +331,8 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end)
+        end),
+    awful.key({ "Control", "Mod1"}, "Delete",  function() os.execute("xscreensaver-command -lock")  end)
 )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -377,6 +378,8 @@ clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
+
+
 
 -- Set keys
 root.keys(globalkeys)
@@ -442,3 +445,4 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 os.execute("synclient TapButton1=1")
+os.execute("xscreensaver -no-splash &")
