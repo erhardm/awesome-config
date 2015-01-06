@@ -39,7 +39,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init( os.getenv("HOME") .. "/.config/awesome/td.lua")
+beautiful.init( awful.util.getdir("config") .. "td.lua")
 
 -- This is used later as the default terminal and editor to run.
 local terminal = "urxvt"
