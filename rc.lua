@@ -8,7 +8,7 @@ require("beautiful")
 require("naughty")
 -- User libraries
 vicious = require("vicious")
-
+wibox = require("wibox")
 -- Load Debian menu entries
 require("debian.menu")
 
@@ -24,7 +24,7 @@ end
 -- Handle runtime errors after startup
 do
     local in_error = false
-    awesome.add_signal("debug::error", function (err)
+    awesome.connect_signal("debug::error", function (err)
         -- Make sure we don't go into an endless error loop
         if in_error then return end
         in_error = true
@@ -107,41 +107,25 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 -- {{{ Reusable separator
-separator = widget({ type = "imagebox"})
-separator.image = image(beautiful.widget_sep)
--- }}}
-
--- {{{ CPU usage and temperator
-cpuicon = widget({ type = "imagebox"})
-cpuicon.image = image(beautiful.widget_cpu)
--- Initialize widgets
-cpugraph = awful.widget.graph()
-tzswidget = widget({ type = "textbox" })
--- Graph properties
-cpugraph:set_width(40):set_height(14)
-cpugraph:set_background_color(beautiful.fg_off_widget)
-cpugraph:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget
-})
--- Register widgets
-vicious.register(cpugraph, vicious.widgets.cpu, "$1")
-vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
+separator = wibox.widget.imagebox()
+separator:set_image(beautiful.widget_sep)
 -- }}}
 
 -- {{{ Battery state
-baticon = widget({ type = "imagebox" })
-baticon.image = image(beautiful.widget_bat)
+baticon = wibox.widget.imagebox()
+baticon:set_image(beautiful.widget_bat)
 -- Initialize widget
-batwidget = widget({ type = "textbox" })
+batwidget = wibox.widget.textbox()
 -- Register widget
 vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT1")
 -- }}}
 
 -- {{{ Volume level
-volicon = widget({ type = "imagebox" })
-volicon.image = image(beautiful.widget_vol)
+volicon = wibox.widget.imagebox()
+volicon:set_image(beautiful.widget_vol)
 -- Initialize widgets
 volbar      = awful.widget.progressbar()
-volwidget   = widget({ type = "textbox" })
+volwidget   = wibox.widget.textbox()
 -- Progressbar properties
 volbar:set_vertical(true):set_ticks(true)
 volbar:set_height(12):set_width(8):set_ticks_size(2)
@@ -157,7 +141,7 @@ vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "PCM")
 textclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
-systray = widget({ type = "systray" })
+systray = wibox.widget.systray()
 
 -- Create a wibox for each screen and add it
 wibox = {}
@@ -417,12 +401,12 @@ awful.rules.rules = {
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.add_signal("manage", function (c, startup)
+client.connect_signal("manage", function (c, startup)
     -- Add a titlebar
     -- awful.titlebar.add(c, { modkey = modkey })
 
     -- Enable sloppy focus
-    c:add_signal("mouse::enter", function(c)
+    c:connect_signal("mouse::enter", function(c)
         if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
             and awful.client.focus.filter(c) then
             client.focus = c
@@ -442,8 +426,8 @@ client.add_signal("manage", function (c, startup)
     end
 end)
 
-client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 os.execute("synclient TapButton1=1")
 os.execute("xscreensaver -no-splash &")
